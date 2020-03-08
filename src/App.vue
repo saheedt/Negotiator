@@ -3,14 +3,14 @@
     <Header title="Negotiator"/>
     <section class="tab-container">
       <div class="tab-buttons-holder">
-        <button
+        <Button
           v-for="tab in tabs"
           v-bind:key="tab.name"
-          v-bind:class="['tab-button', {active: activeTab.name === tab.name}]"
-          v-on:click="activeTab = tab"
+          v-bind:styleClass="['tab-button', {active: activeTab.name === tab.name}]"
+          v-bind:handleCLick="switchTab(tab)"
           >
           {{tab.name}}
-          </button>
+          </Button>
       </div>
       <div class="tab-components-holder"></div>
     </section>
@@ -19,6 +19,7 @@
 
 <script>
 import Header from './components/Header.vue';
+import Button from './components/Button.vue';
 
 const tabs = [
   { name: 'Employer-Tab' },
@@ -28,11 +29,19 @@ export default {
   name: 'App',
   components: {
     Header,
+    Button,
   },
   data: () => ({
     tabs,
     activeTab: tabs[0],
   }),
+  methods: {
+    switchTab(newTab) {
+      return () => {
+        this.activeTab = newTab;
+      };
+    },
+  },
 };
 </script>
 
