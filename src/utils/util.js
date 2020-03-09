@@ -15,6 +15,6 @@ const util = {
     return false;
   },
   invalidInputCharacters: ['e', 'E'],
-  invalidInputMessage: 'Invalid character(s) detected.',
+  invalidInputMessage: 'Invalid character(s) detected and removed.',
 };
 export default util;
