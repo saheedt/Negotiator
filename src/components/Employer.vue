@@ -29,6 +29,12 @@ import Input from './Input.vue';
 import Error from './Error.vue';
 import util from '../utils/util';
 
+const {
+  keyPressHasExponential,
+  mutations,
+  pasteHasExponential,
+} = util;
+
 export default {
   name: 'Employer',
   components: {
@@ -43,14 +49,12 @@ export default {
   methods: {
     setLocalOffer(offer) {
       this.localEmployerOffer = offer;
-      console.log('employer offer: ', this.localEmployerOffer);
     },
     submitOffer(event) {
       event.preventDefault();
-      this.$store.commit('setMaxOffer', this.localEmployerOffer);
+      this.$store.commit(mutations.SET_MAX_OFFER, this.localEmployerOffer);
     },
     handleKeyPress(event) {
-      const { keyPressHasExponential } = util;
       if (keyPressHasExponential(event.key)) {
         event.preventDefault();
         this.foundInvalidInput = true;
@@ -59,7 +63,6 @@ export default {
       this.foundInvalidInput = false;
     },
     handlePaste(event) {
-      const { pasteHasExponential } = util;
       if (pasteHasExponential(event)) {
         event.preventDefault();
         this.foundInvalidInput = true;

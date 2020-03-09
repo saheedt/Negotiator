@@ -16,5 +16,13 @@ const util = {
   },
   invalidInputCharacters: ['e', 'E'],
   invalidInputMessage: 'Invalid character(s) detected and removed.',
+  mutations: {
+    SET_MIN_SALARY: 'setMinSalary',
+    SET_MAX_OFFER: 'setMaxOffer',
+  },
+  negotitationStatus: {
+    SUCCESS: 'Success',
+    FAILURE: 'Failure',
+  },
 };
 export default util;

@@ -88,7 +88,6 @@ export default {
 }
 
 .modal-body {
-  margin: 20px 0;
   padding: 1rem 0;
 }
 
@@ -103,14 +102,6 @@ export default {
   background-color: $button-background;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter {
   opacity: 0;

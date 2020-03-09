@@ -1,20 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import util from '../utils/util';
+
 Vue.use(Vuex);
 
+const { mutations } = util;
 export default new Vuex.Store({
   state: {
     minSalary: null,
     maxOffer: null,
   },
   mutations: {
-    setMinSalary(state, value) {
-      console.log('minSalary: ', value);
+    [mutations.SET_MIN_SALARY](state, value) {
       state.minSalary = value;
     },
-    setMaxOffer(state, value) {
-      console.log('maxOffer: ', value);
+    [mutations.SET_MAX_OFFER](state, value) {
       state.maxOffer = value;
     },
   },

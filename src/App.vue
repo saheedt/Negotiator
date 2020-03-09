@@ -17,7 +17,9 @@
       </div>
     </section>
     <Modal v-if="showModal" :handleClose="closeModal">
-
+      <h3 slot="header">{{negotiationStatus}}!</h3>
+      <div slot="body">Maximum offer was: {{maxOffer}}</div>
+      <div slot="body">Minimum expected salary was: {{minSalary}}</div>
     </Modal>
   </main>
 </template>
@@ -29,6 +31,9 @@ import Employer from './components/Employer.vue';
 import Header from './components/Header.vue';
 import Modal from './components/Modal.vue';
 
+import util from './utils/util';
+
+const { mutations, negotitationStatus } = util;
 const tabs = [
   {
     name: 'Employer-Tab',
@@ -49,7 +54,6 @@ export default {
   data: () => ({
     tabs,
     activeTab: tabs[0],
-    showModal: false,
   }),
   methods: {
     switchTab(newTab) {
@@ -58,7 +62,8 @@ export default {
       };
     },
     closeModal() {
-      console.log('close modal..');
+      this.$store.commit(mutations.SET_MIN_SALARY, null);
+      this.$store.commit(mutations.SET_MAX_OFFER, null);
     },
   },
   computed: {
@@ -66,7 +71,17 @@ export default {
       return this.$store.state.minSalary;
     },
     maxOffer() {
-      return this.$store.state.maxoffer;
+      return this.$store.state.maxOffer;
+    },
+    showModal() {
+      return this.maxOffer && this.minSalary;
+    },
+    negotiationStatus() {
+      const { FAILURE, SUCCESS } = negotitationStatus;
+      if (this.minSalary <= this.maxOffer) {
+        return SUCCESS;
+      }
+      return FAILURE;
     },
   },
 };
