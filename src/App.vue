@@ -16,14 +16,18 @@
         <component v-bind:is="activeTab.component"></component>
       </div>
     </section>
+    <Modal v-if="showModal" :handleClose="closeModal">
+
+    </Modal>
   </main>
 </template>
 
 <script>
 import Button from './components/Button.vue';
-import Header from './components/Header.vue';
-import Employer from './components/Employer.vue';
 import Employee from './components/Employee.vue';
+import Employer from './components/Employer.vue';
+import Header from './components/Header.vue';
+import Modal from './components/Modal.vue';
 
 const tabs = [
   {
@@ -38,18 +42,23 @@ const tabs = [
 export default {
   name: 'App',
   components: {
-    Header,
     Button,
+    Header,
+    Modal,
   },
   data: () => ({
     tabs,
     activeTab: tabs[0],
+    showModal: false,
   }),
   methods: {
     switchTab(newTab) {
       return () => {
         this.activeTab = newTab;
       };
+    },
+    closeModal() {
+      console.log('close modal..');
     },
   },
 };
@@ -96,7 +105,7 @@ a {
 .tab-button {
   width: 49%;
   height: 100%;
-  background-color: #dddddd;
+  background-color: $button-background;
 }
 .tab-button.active {
   background-color: $component-background;
@@ -125,7 +134,7 @@ a {
 .submit-button {
   height: 3rem;
   width: 100%;
-  background-color: #dddddd;
+  background-color: $button-background;
 }
 /** small screen breakpoint */
 @media only screen and (max-width: 719px) {
