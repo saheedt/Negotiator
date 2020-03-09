@@ -21,6 +21,13 @@
       <div slot="body">Maximum offer was: {{maxOffer}}</div>
       <div slot="body">Minimum expected salary was: {{minSalary}}</div>
     </Modal>
+    <!-- This makes sure screen readers and assistive technologies
+          aware of this status change -->
+    <span class="ar-notify" v-if="showModal" role="status" aria-live="polite">
+      <h3>{{negotiationStatus}}!</h3>
+      <div>Maximum offer was: {{maxOffer}}</div>
+      <div>Minimum expected salary was: {{minSalary}}</div>
+    </span>
   </main>
 </template>
 
@@ -159,6 +166,12 @@ a {
   width: 100%;
   background-color: $button-background;
 }
+.ar-notify {
+  position: absolute;
+  left: -10000px;
+  overflow: hidden;
+}
+
 /** small screen breakpoint */
 @media only screen and (max-width: 719px) {
   .tab-container{
