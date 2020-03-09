@@ -23,13 +23,17 @@
 import Button from './components/Button.vue';
 import Header from './components/Header.vue';
 import Employer from './components/Employer.vue';
+import Employee from './components/Employee.vue';
 
 const tabs = [
   {
     name: 'Employer-Tab',
     component: Employer,
   },
-  { name: 'Employee-Tab' },
+  {
+    name: 'Employee-Tab',
+    component: Employee,
+  },
 ];
 export default {
   name: 'App',

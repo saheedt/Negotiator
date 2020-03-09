@@ -1,17 +1,17 @@
 <template>
-  <form class="employer-holder" @submit="submitOffer">
+  <form class="employee-holder" @submit="submitSalary">
     <Error v-if="foundInvalidInput">{{invalidInputMsg}}</Error>
     <div class="salary-input-holder">
       <Input
-        label="Employer salary offer"
-        placeholder="Enter maximum offer"
+        label="Employee minimum salary"
+        placeholder="Enter minimum salary"
         type="number"
-        v-on:input="setLocalOffer($event)"
+        v-on:input="setLocalSalary($event)"
         :styleClass="['salary-input']"
         :required='true'
         :handleKeyPress="handleKeyPress"
         :handlePaste="handlePaste"
-        :value="localEmployerOffer"
+        :value="localEmployeeSalary"
       />
     </div>
     <div class="salary-submit-btn-holder">
@@ -28,22 +28,22 @@ import Error from './Error.vue';
 import util from '../utils/util';
 
 export default {
-  name: 'Employer',
+  name: 'Employee',
   components: {
     Input,
     Error,
   },
   data: () => ({
-    localEmployerOffer: null,
+    localEmployeeSalary: null,
     foundInvalidInput: false,
     invalidInputMsg: util.invalidInputMessage,
   }),
   methods: {
-    setLocalOffer(offer) {
-      this.localEmployerOffer = offer;
-      console.log('employer offer: ', this.localEmployerOffer);
+    setLocalSalary(salary) {
+      this.localEmployeeSalary = salary;
+      console.log('employee salary: ', this.localEmployeeSalary);
     },
-    submitOffer(event) {
+    submitSalary(event) {
       event.preventDefault();
     },
     handleKeyPress(event) {
@@ -66,7 +66,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  .employer-holder {
+  .employee-holder {
     width: 100%;
     height: 50vh;
     display: flex;
