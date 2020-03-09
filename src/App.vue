@@ -33,7 +33,7 @@ import Modal from './components/Modal.vue';
 
 import util from './utils/util';
 
-const { mutations, negotitationStatus } = util;
+const { mutations, negotitationStatus, redix } = util;
 const tabs = [
   {
     name: 'Employer-Tab',
@@ -78,7 +78,7 @@ export default {
     },
     negotiationStatus() {
       const { FAILURE, SUCCESS } = negotitationStatus;
-      if (this.minSalary <= this.maxOffer) {
+      if (parseInt(this.minSalary, redix) <= parseInt(this.maxOffer, redix)) {
         return SUCCESS;
       }
       return FAILURE;

@@ -24,5 +24,6 @@ const util = {
     SUCCESS: 'Success',
     FAILURE: 'Failure',
   },
+  redix: 10,
 };
 export default util;
