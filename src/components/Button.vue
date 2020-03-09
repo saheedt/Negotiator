@@ -1,5 +1,5 @@
 <template>
-  <button @click="handleCLick()" :class="styleClass">
+  <button @click="handleClick()" :class="styleClass">
     <slot></slot>
   </button>
 </template>
@@ -8,7 +8,7 @@ export default {
   name: 'Button',
   props: {
     styleClass: Array,
-    handleCLick: Function,
+    handleClick: Function,
   },
 };
 </script>

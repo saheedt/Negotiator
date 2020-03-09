@@ -3,9 +3,14 @@
     :aria-label="label"
     :placeholder="placeholder"
     :type="type"
-    :value="localValue"
-    v-on:input="$emit('input', $event.target.value)"
+    :value="value"
+    v-on:input="handleInput"
+    v-on:paste="handlePaste"
+    v-on:keypress="handleKeyPress"
     :required="required"
+    :class="styleClass"
+    min="1"
+    step="any"
   />
 </template>
 <script>
@@ -16,15 +21,26 @@ export default {
     placeholder: String,
     required: Boolean,
     type: String,
+    styleClass: Array,
+    handleKeyPress: {
+      type: Function,
+      default: () => false,
+    },
+    handlePaste: {
+      type: Function,
+      default: () => false,
+    },
+    value: {
+      type: [Number, String],
+      default: null,
+    },
   },
-  data: () =>({
-      localValue: null
-  }),
+  methods: {
+    handleInput(event) {
+      this.$emit('input', event.target.value);
+    },
+  },
 };
 </script>
 <style lang="scss">
-  input {
-    height: 5rem;
-  	width: 80%;
-	}
 </style>
