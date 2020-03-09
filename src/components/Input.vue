@@ -11,6 +11,7 @@
     :class="styleClass"
     min="1"
     step="any"
+    :disabled="disable"
   />
 </template>
 <script>
@@ -33,6 +34,10 @@ export default {
     value: {
       type: [Number, String],
       default: null,
+    },
+    disable: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

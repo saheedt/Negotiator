@@ -61,6 +61,14 @@ export default {
       console.log('close modal..');
     },
   },
+  computed: {
+    minSalary() {
+      return this.$store.state.minSalary;
+    },
+    maxOffer() {
+      return this.$store.state.maxoffer;
+    },
+  },
 };
 </script>
 

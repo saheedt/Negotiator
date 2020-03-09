@@ -12,12 +12,14 @@
         :handleKeyPress="handleKeyPress"
         :handlePaste="handlePaste"
         :value="localEmployerOffer"
+        v-if="!maxOffer"
       />
     </div>
     <div class="salary-submit-btn-holder">
       <Input
         type="submit"
         :styleClass="['submit-button']"
+        :disable="disableSubmitButton"
       />
     </div>
   </form>
@@ -45,6 +47,7 @@ export default {
     },
     submitOffer(event) {
       event.preventDefault();
+      this.$store.commit('setMaxOffer', this.localEmployerOffer);
     },
     handleKeyPress(event) {
       const { keyPressHasExponential } = util;
@@ -61,6 +64,14 @@ export default {
         event.preventDefault();
         this.foundInvalidInput = true;
       }
+    },
+  },
+  computed: {
+    maxOffer() {
+      return this.$store.state.maxOffer;
+    },
+    disableSubmitButton() {
+      return !!this.$store.state.maxOffer;
     },
   },
 };

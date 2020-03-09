@@ -12,12 +12,14 @@
         :handleKeyPress="handleKeyPress"
         :handlePaste="handlePaste"
         :value="localEmployeeSalary"
+        v-if="!minSalary"
       />
     </div>
     <div class="salary-submit-btn-holder">
       <Input
         type="submit"
         :styleClass="['submit-button']"
+        :disable="disableSubmitButton"
       />
     </div>
   </form>
@@ -45,6 +47,7 @@ export default {
     },
     submitSalary(event) {
       event.preventDefault();
+      this.$store.commit('setMinSalary', this.localEmployeeSalary);
     },
     handleKeyPress(event) {
       const { keyPressHasExponential } = util;
@@ -61,6 +64,14 @@ export default {
         event.preventDefault();
         this.foundInvalidInput = true;
       }
+    },
+  },
+  computed: {
+    minSalary() {
+      return this.$store.state.minSalary;
+    },
+    disableSubmitButton() {
+      return !!this.$store.state.minSalary;
     },
   },
 };
