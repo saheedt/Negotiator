@@ -1,5 +1,6 @@
 <template>
   <form class="employer-holder" @submit="submitOffer">
+    <Error v-if="foundInvalidInput">{{invalidInputMsg}}</Error>
     <div class="salary-input-holder">
       <Input
         label="Employer salary offer"
@@ -8,6 +9,9 @@
         v-on:input="setLocalOffer($event)"
         :styleClass="['salary-input']"
         :required='true'
+        :handleKeyPress="handleKeyPress"
+        :handlePaste="handlePaste"
+        :value="employerOffer"
       />
     </div>
     <div class="salary-submit-btn-holder">
@@ -21,27 +25,43 @@
 </template>
 <script>
 import Input from './Input.vue';
+import Error from './Error.vue';
+import util from '../utils/util';
 
 export default {
   name: 'Employer',
   components: {
     Input,
+    Error,
   },
   data: () => ({
-    localEmployerOffer: null,
+    employerOffer: null,
+    foundInvalidInput: false,
+    invalidInputMsg: util.invalidInputMessage,
   }),
   methods: {
     setLocalOffer(offer) {
-      console.log('incoming offer: ', offer);
-      console.log('string Parse: ', JSON.parse(JSON.stringify(offer)));
-      this.localEmployerOffer = offer;
-      console.log('local offer: ', this.localEmployerOffer);
+      this.employerOffer = offer;
+      console.log('employer offer: ', this.employerOffer);
     },
     submitOffer(event) {
-      // implement/style error notification component
       event.preventDefault();
-      console.log('submiting...');
-      console.log('is nan? : ', Number.isNaN(this.localEmployerOffer));
+    },
+    handleKeyPress(event) {
+      const { keyPressHasExponential } = util;
+      if (keyPressHasExponential(event.key)) {
+        event.preventDefault();
+        this.foundInvalidInput = true;
+        return;
+      }
+      this.foundInvalidInput = false;
+    },
+    handlePaste(event) {
+      const { pasteHasExponential } = util;
+      if (pasteHasExponential(event)) {
+        event.preventDefault();
+        this.foundInvalidInput = true;
+      }
     },
   },
 };
