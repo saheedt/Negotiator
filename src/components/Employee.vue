@@ -12,12 +12,14 @@
         :handleKeyPress="handleKeyPress"
         :handlePaste="handlePaste"
         :value="localEmployeeSalary"
+        v-if="!minSalary"
       />
     </div>
     <div class="salary-submit-btn-holder">
       <Input
         type="submit"
         :styleClass="['submit-button']"
+        :disable="disableSubmitButton"
       />
     </div>
   </form>
@@ -26,6 +28,14 @@
 import Input from './Input.vue';
 import Error from './Error.vue';
 import util from '../utils/util';
+
+const {
+  validations: {
+    keyPressHasExponential,
+    pasteHasExponential,
+  },
+  mutations,
+} = util;
 
 export default {
   name: 'Employee',
@@ -41,13 +51,13 @@ export default {
   methods: {
     setLocalSalary(salary) {
       this.localEmployeeSalary = salary;
-      console.log('employee salary: ', this.localEmployeeSalary);
     },
     submitSalary(event) {
       event.preventDefault();
+      this.$store.commit(mutations.SET_MIN_SALARY, this.localEmployeeSalary);
+      this.localEmployeeSalary = null;
     },
     handleKeyPress(event) {
-      const { keyPressHasExponential } = util;
       if (keyPressHasExponential(event.key)) {
         event.preventDefault();
         this.foundInvalidInput = true;
@@ -56,11 +66,18 @@ export default {
       this.foundInvalidInput = false;
     },
     handlePaste(event) {
-      const { pasteHasExponential } = util;
       if (pasteHasExponential(event)) {
         event.preventDefault();
         this.foundInvalidInput = true;
       }
+    },
+  },
+  computed: {
+    minSalary() {
+      return this.$store.state.minSalary;
+    },
+    disableSubmitButton() {
+      return !!this.$store.state.minSalary;
     },
   },
 };

@@ -16,15 +16,59 @@
         <component v-bind:is="activeTab.component"></component>
       </div>
     </section>
+    <Modal v-if="showModal" :handleClose="closeModal"
+      :fetchWeather="fetchWeather" :city="currentCity">
+      <h3 slot="header">{{negotiationStatus}}!</h3>
+      <div slot="body">Maximum offer was: {{maxOffer}}</div>
+      <div slot="body">Minimum expected salary was: {{minSalary}}</div>
+      <div v-if="currentWeather" slot="footer">
+        The current temperature in {{currentCity}} is {{currentWeather.temp}}°C
+      </div>
+      <div v-if="currentWeatherError" slot="footer">
+        <Error>Something went wrong fetching {{currentCity}}'s current temperature</Error>
+      </div>
+    </Modal>
+    <!-- This makes sure screen readers and assistive technologies
+          aware of this status change -->
+    <div class="ar-notify" role="status" aria-live="polite">
+      <div v-if="showModal">
+        <h3>{{negotiationStatus}}!</h3>
+        <div>Maximum offer was: {{maxOffer}}</div>
+        <div>Minimum expected salary was: {{minSalary}}</div>
+        <div v-if="currentWeather">
+          The current temperature in {{currentCity}} is {{currentWeather.temp}}°C
+        </div>
+        <div v-if="currentWeatherError">
+          <Error>Something went wrong fetching {{currentCity}}'s current temperature</Error>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <script>
 import Button from './components/Button.vue';
-import Header from './components/Header.vue';
-import Employer from './components/Employer.vue';
 import Employee from './components/Employee.vue';
+import Employer from './components/Employer.vue';
+import Error from './components/Error.vue';
+import Header from './components/Header.vue';
+import Modal from './components/Modal.vue';
 
+import util from './utils/util';
+
+const {
+  mutations,
+  statuses: {
+    negotitationStatus,
+  },
+  crud: {
+    fetch,
+  },
+  weather: {
+    city,
+    units,
+  },
+} = util;
 const tabs = [
   {
     name: 'Employer-Tab',
@@ -38,18 +82,54 @@ const tabs = [
 export default {
   name: 'App',
   components: {
-    Header,
     Button,
+    Error,
+    Header,
+    Modal,
   },
   data: () => ({
     tabs,
     activeTab: tabs[0],
+    currentCity: city,
+    currentWeather: null,
+    currentWeatherError: false,
   }),
   methods: {
     switchTab(newTab) {
       return () => {
         this.activeTab = newTab;
       };
+    },
+    closeModal() {
+      this.$store.commit(mutations.SET_MIN_SALARY, null);
+      this.$store.commit(mutations.SET_MAX_OFFER, null);
+      this.currentWeatherError = false;
+    },
+    fetchWeather(targetCity) {
+      const url = `https://${process.env.VUE_APP_WEATHER_API_BASE_URL}?q=${targetCity}&units=${units}&appid=${process.env.VUE_APP_WEATHER_API_KEY}`;
+      fetch(url)
+        .then((data) => {
+          this.currentWeather = { temp: data.main.temp };
+        })
+        .catch(() => { this.currentWeatherError = true; });
+    },
+  },
+  computed: {
+    minSalary() {
+      return this.$store.state.minSalary;
+    },
+    maxOffer() {
+      return this.$store.state.maxOffer;
+    },
+    showModal() {
+      return this.maxOffer && this.minSalary;
+    },
+    negotiationStatus() {
+      const { FAILURE, SUCCESS } = negotitationStatus;
+      if (Number.parseFloat(this.minSalary) <= Number.parseFloat(this.maxOffer)) {
+        return SUCCESS;
+      }
+      return FAILURE;
     },
   },
 };
@@ -96,7 +176,7 @@ a {
 .tab-button {
   width: 49%;
   height: 100%;
-  background-color: #dddddd;
+  background-color: $button-background;
 }
 .tab-button.active {
   background-color: $component-background;
@@ -125,8 +205,14 @@ a {
 .submit-button {
   height: 3rem;
   width: 100%;
-  background-color: #dddddd;
+  background-color: $button-background;
 }
+.ar-notify {
+  position: absolute;
+  left: -10000px;
+  overflow: hidden;
+}
+
 /** small screen breakpoint */
 @media only screen and (max-width: 719px) {
   .tab-container{

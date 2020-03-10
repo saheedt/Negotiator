@@ -12,12 +12,14 @@
         :handleKeyPress="handleKeyPress"
         :handlePaste="handlePaste"
         :value="localEmployerOffer"
+        v-if="!maxOffer"
       />
     </div>
     <div class="salary-submit-btn-holder">
       <Input
         type="submit"
         :styleClass="['submit-button']"
+        :disable="disableSubmitButton"
       />
     </div>
   </form>
@@ -26,6 +28,14 @@
 import Input from './Input.vue';
 import Error from './Error.vue';
 import util from '../utils/util';
+
+const {
+  validations: {
+    keyPressHasExponential,
+    pasteHasExponential,
+  },
+  mutations,
+} = util;
 
 export default {
   name: 'Employer',
@@ -41,13 +51,13 @@ export default {
   methods: {
     setLocalOffer(offer) {
       this.localEmployerOffer = offer;
-      console.log('employer offer: ', this.localEmployerOffer);
     },
     submitOffer(event) {
       event.preventDefault();
+      this.$store.commit(mutations.SET_MAX_OFFER, this.localEmployerOffer);
+      this.localEmployerOffer = null;
     },
     handleKeyPress(event) {
-      const { keyPressHasExponential } = util;
       if (keyPressHasExponential(event.key)) {
         event.preventDefault();
         this.foundInvalidInput = true;
@@ -56,11 +66,18 @@ export default {
       this.foundInvalidInput = false;
     },
     handlePaste(event) {
-      const { pasteHasExponential } = util;
       if (pasteHasExponential(event)) {
         event.preventDefault();
         this.foundInvalidInput = true;
       }
+    },
+  },
+  computed: {
+    maxOffer() {
+      return this.$store.state.maxOffer;
+    },
+    disableSubmitButton() {
+      return !!this.$store.state.maxOffer;
     },
   },
 };
