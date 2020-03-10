@@ -16,18 +16,33 @@
         <component v-bind:is="activeTab.component"></component>
       </div>
     </section>
-    <Modal v-if="showModal" :handleClose="closeModal">
+    <Modal v-if="showModal" :handleClose="closeModal"
+      :fetchWeather="fetchWeather" :city="currentCity">
       <h3 slot="header">{{negotiationStatus}}!</h3>
       <div slot="body">Maximum offer was: {{maxOffer}}</div>
       <div slot="body">Minimum expected salary was: {{minSalary}}</div>
+      <div v-if="currentWeather" slot="footer">
+        The current temperature in {{currentCity}} is {{currentWeather.temp}}°C
+      </div>
+      <div v-if="currentWeatherError" slot="footer">
+        <Error>Something went wrong fetching {{currentCity}}'s current temperature</Error>
+      </div>
     </Modal>
     <!-- This makes sure screen readers and assistive technologies
           aware of this status change -->
-    <span class="ar-notify" v-if="showModal" role="status" aria-live="polite">
-      <h3>{{negotiationStatus}}!</h3>
-      <div>Maximum offer was: {{maxOffer}}</div>
-      <div>Minimum expected salary was: {{minSalary}}</div>
-    </span>
+    <div class="ar-notify" role="status" aria-live="polite">
+      <div v-if="showModal">
+        <h3>{{negotiationStatus}}!</h3>
+        <div>Maximum offer was: {{maxOffer}}</div>
+        <div>Minimum expected salary was: {{minSalary}}</div>
+        <div v-if="currentWeather">
+          The current temperature in {{currentCity}} is {{currentWeather.temp}}°C
+        </div>
+        <div v-if="currentWeatherError">
+          <Error>Something went wrong fetching {{currentCity}}'s current temperature</Error>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -35,12 +50,28 @@
 import Button from './components/Button.vue';
 import Employee from './components/Employee.vue';
 import Employer from './components/Employer.vue';
+import Error from './components/Error.vue';
 import Header from './components/Header.vue';
 import Modal from './components/Modal.vue';
 
 import util from './utils/util';
 
-const { mutations, negotitationStatus, redix } = util;
+const {
+  mutations,
+  statuses: {
+    negotitationStatus,
+  },
+  math: {
+    redix,
+  },
+  crud: {
+    fetch,
+  },
+  weather: {
+    city,
+    units,
+  },
+} = util;
 const tabs = [
   {
     name: 'Employer-Tab',
@@ -55,12 +86,16 @@ export default {
   name: 'App',
   components: {
     Button,
+    Error,
     Header,
     Modal,
   },
   data: () => ({
     tabs,
     activeTab: tabs[0],
+    currentCity: city,
+    currentWeather: null,
+    currentWeatherError: false,
   }),
   methods: {
     switchTab(newTab) {
@@ -71,6 +106,15 @@ export default {
     closeModal() {
       this.$store.commit(mutations.SET_MIN_SALARY, null);
       this.$store.commit(mutations.SET_MAX_OFFER, null);
+      this.currentWeatherError = false;
+    },
+    fetchWeather(targetCity) {
+      const url = `https://${process.env.VUE_APP_WEATHER_API_BASE_URL}?q=${targetCity}&units=${units}&appid=${process.env.VUE_APP_WEATHER_API_KEY}`;
+      fetch(url)
+        .then((data) => {
+          this.currentWeather = { temp: data.main.temp };
+        })
+        .catch(() => { this.currentWeatherError = true; });
     },
   },
   computed: {

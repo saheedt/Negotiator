@@ -1,29 +1,47 @@
 const util = {
-  pasteHasExponential: (event) => {
-    const pasted = (event.originaleventvent || event).clipboardData.getData('text/plain');
-    const stringified = JSON.stringify(pasted);
-    if (stringified.indexOf(util.invalidInputCharacters[0]) > -1
-      || stringified.indexOf(util.invalidInputCharacters[1]) > -1) {
-      return true;
-    }
-    return false;
+  validations: {
+    pasteHasExponential: (event) => {
+      const pasted = (event.originaleventvent || event).clipboardData.getData('text/plain');
+      const stringified = JSON.stringify(pasted);
+      if (stringified.indexOf(util.validations.invalidInputCharacters[0]) > -1
+        || stringified.indexOf(util.validations.invalidInputCharacters[1]) > -1) {
+        return true;
+      }
+      return false;
+    },
+    keyPressHasExponential: (key) => {
+      if (util.validations.invalidInputCharacters.includes(key)) {
+        return true;
+      }
+      return false;
+    },
+    invalidInputCharacters: ['e', 'E'],
   },
-  keyPressHasExponential: (key) => {
-    if (util.invalidInputCharacters.includes(key)) {
-      return true;
-    }
-    return false;
+  messages: {
+    invalidInputMessage: 'Invalid character(s) detected and removed.',
   },
-  invalidInputCharacters: ['e', 'E'],
-  invalidInputMessage: 'Invalid character(s) detected and removed.',
   mutations: {
     SET_MIN_SALARY: 'setMinSalary',
     SET_MAX_OFFER: 'setMaxOffer',
   },
-  negotitationStatus: {
-    SUCCESS: 'Success',
-    FAILURE: 'Failure',
+  statuses: {
+    negotitationStatus: {
+      SUCCESS: 'Success',
+      FAILURE: 'Failure',
+    },
   },
-  redix: 10,
+  math: {
+    redix: 10,
+  },
+  crud: {
+    fetch: async (url, options = {}) => {
+      const response = await fetch(url, options);
+      return response.json();
+    },
+  },
+  weather: {
+    city: 'london',
+    units: 'metric',
+  },
 };
 export default util;

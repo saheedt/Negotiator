@@ -6,25 +6,22 @@
 
           <div class="modal-header">
             <slot name="header">
-              default header
             </slot>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              default body
             </slot>
           </div>
 
           <div class="modal-footer">
             <slot name="footer">
-              <!-- default footer -->
-              <Button :styleClass="['modal-default-button']"
-                :handleClick="handleClose">
-                OK
-              </Button>
             </slot>
           </div>
+          <Button :styleClass="['modal-default-button']"
+                :handleClick="handleClose">
+            OK
+          </Button>
         </div>
       </div>
     </div>
@@ -41,6 +38,11 @@ export default {
   },
   props: {
     handleClose: Function,
+    fetchWeather: Function,
+    city: String,
+  },
+  created() {
+    this.fetchWeather(this.city);
   },
 };
 </script>
@@ -92,7 +94,7 @@ export default {
 }
 
 .modal-footer {
-  padding: 1rem 0;
+  padding-bottom: 1rem;
 }
 
 .modal-default-button {
@@ -101,7 +103,6 @@ export default {
   width: 5rem;
   background-color: $button-background;
 }
-
 
 .modal-enter {
   opacity: 0;
@@ -122,5 +123,4 @@ export default {
     max-width: 40%;
   }
 }
-
 </style>

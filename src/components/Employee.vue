@@ -30,9 +30,11 @@ import Error from './Error.vue';
 import util from '../utils/util';
 
 const {
-  keyPressHasExponential,
+  validations: {
+    keyPressHasExponential,
+    pasteHasExponential,
+  },
   mutations,
-  pasteHasExponential,
 } = util;
 
 export default {
@@ -53,6 +55,7 @@ export default {
     submitSalary(event) {
       event.preventDefault();
       this.$store.commit(mutations.SET_MIN_SALARY, this.localEmployeeSalary);
+      this.localEmployeeSalary = null;
     },
     handleKeyPress(event) {
       if (keyPressHasExponential(event.key)) {

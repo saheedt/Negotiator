@@ -30,9 +30,11 @@ import Error from './Error.vue';
 import util from '../utils/util';
 
 const {
-  keyPressHasExponential,
+  validations: {
+    keyPressHasExponential,
+    pasteHasExponential,
+  },
   mutations,
-  pasteHasExponential,
 } = util;
 
 export default {
@@ -53,6 +55,7 @@ export default {
     submitOffer(event) {
       event.preventDefault();
       this.$store.commit(mutations.SET_MAX_OFFER, this.localEmployerOffer);
+      this.localEmployerOffer = null;
     },
     handleKeyPress(event) {
       if (keyPressHasExponential(event.key)) {
