@@ -30,9 +30,6 @@ const util = {
       FAILURE: 'Failure',
     },
   },
-  math: {
-    redix: 10,
-  },
   crud: {
     fetch: async (url, options = {}) => {
       const response = await fetch(url, options);

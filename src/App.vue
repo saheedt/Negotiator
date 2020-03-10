@@ -61,9 +61,6 @@ const {
   statuses: {
     negotitationStatus,
   },
-  math: {
-    redix,
-  },
   crud: {
     fetch,
   },
@@ -129,7 +126,7 @@ export default {
     },
     negotiationStatus() {
       const { FAILURE, SUCCESS } = negotitationStatus;
-      if (parseInt(this.minSalary, redix) <= parseInt(this.maxOffer, redix)) {
+      if (Number.parseFloat(this.minSalary) <= Number.parseFloat(this.maxOffer)) {
         return SUCCESS;
       }
       return FAILURE;
