@@ -6,6 +6,7 @@ describe('Error component', () => {
   it('should render error message correctly', () => {
     const errorMsg = 'No way!';
     const wrapper = shallowMount(Error, {
+      localVue,
       slots: {
         default: errorMsg
       }
@@ -13,7 +14,6 @@ describe('Error component', () => {
     const renderedErrorMessagetext = wrapper.find('.error-msg-box').text().trim();
     // we expect a duplicate because of the aria-live implementation in the error component
     const expected = `Error!  ${errorMsg} Error!  ${errorMsg}`.trim();
-    console.log('err text: ', renderedErrorMessagetext, expected);
     expect(renderedErrorMessagetext).toBe(expected);
   });
 });
