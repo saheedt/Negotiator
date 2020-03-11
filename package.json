@@ -7,7 +7,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && cp src/server.js dist/server.js",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e": "vue-cli-service test:e2e --headless",
+    "test": "npm run test:unit && npm run test:e2e",
     "lint": "vue-cli-service lint",
     "postinstall": "rm -rf dist && npm run build"
   },

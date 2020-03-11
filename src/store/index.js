@@ -6,8 +6,8 @@ import util from '../utils/util';
 Vue.use(Vuex);
 
 const { mutations } = util;
-export default () => {
-  return new Vuex.Store({
+export default () => (
+  new Vuex.Store({
     state: {
       minSalary: null,
       maxOffer: null,
@@ -24,6 +24,5 @@ export default () => {
     },
     modules: {
     },
-  });
-};
-
+  })
+);
