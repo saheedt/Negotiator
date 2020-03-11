@@ -41,7 +41,6 @@ jobs:
           paths:
             - coverage
             - package.json
-            - ~/.cache
 
 workflows:
   version: 2.1
