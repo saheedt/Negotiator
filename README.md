@@ -3,6 +3,9 @@
 
 # Negotiator
 A salary negotiation application designed to accept tentative salary figures from prospective employer & employee and notify both parties their negotiation outcome.
+
+## Deployed application instance
+[Negotiator](https://5e694cc20f73c66facd5010a--cocky-mccarthy-9bef7d.netlify.com/)
 ## Project setup
 * Navigate to a directory on your machine using your favourite terminal / command line application
 * Clone this repository into that directory
