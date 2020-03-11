@@ -31,12 +31,17 @@ npm run serve
 npm run build
 ```
 
-### Run your unit tests
+### Run all tests
+```
+npm run test
+```
+
+### Run only unit tests
 ```
 npm run test:unit
 ```
 
-### Run your end-to-end tests
+### Run only end-to-end tests
 ```
 npm run test:e2e
 ```
