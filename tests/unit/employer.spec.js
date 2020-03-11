@@ -1,5 +1,5 @@
 import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
-import Employee from '@/components/Employee.vue';
+import Employer from '@/components/Employer.vue';
 import Vuex from 'vuex';
 
 const localVue = createLocalVue();
@@ -9,23 +9,23 @@ describe('Employee component', () => {
 
   beforeEach(() => {
     state = {
-      minSalary: null
+      maxOffer: null
     }
     store = new Vuex.Store({
       state
     });
   });
   it('renders correctly', () => {
-    const wrapper = shallowMount(Employee, {
+    const wrapper = shallowMount(Employer, {
       store,
       localVue,
     });
-    expect(wrapper.find('.employee-holder').isVisible()).toBe(true);
+    expect(wrapper.find('.employer-holder').isVisible()).toBe(true);
     expect(wrapper.find('.salary-submit-btn-holder').isVisible()).toBe(true);
   });
 
   it('renders the correct amount of children components', () => {
-    const wrapper = mount(Employee, {
+    const wrapper = mount(Employer, {
       store,
       localVue,
     });
@@ -34,11 +34,11 @@ describe('Employee component', () => {
   });
 
   it('renders Error component when error condition is met', () => {
-    const wrapper = mount(Employee, {
+    const wrapper = mount(Employer, {
       store,
       localVue,
       data: () => ({ foundInvalidInput: true }),
     });
     expect(wrapper.find('.error-msg-box').isVisible()).toBe(true);
   });
- });
+});

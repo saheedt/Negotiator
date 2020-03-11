@@ -37,4 +37,14 @@ describe('Modal component', () => {
     wrapper.find('button').trigger('click');
     expect(handleCloseMock.mock.calls.length).toEqual(1);
   });
+
+  it('should call fetchWeather prop on mount', () => {
+    const fetchWeatherMock = jest.fn();
+    shallowMount(Modal, {
+      localVue,
+      propsData: { fetchWeather: fetchWeatherMock },
+    });
+
+    expect(fetchWeatherMock.mock.calls.length).toEqual(1);
+  });
 });
