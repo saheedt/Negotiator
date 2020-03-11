@@ -28,8 +28,8 @@
         <Error>Something went wrong fetching {{currentCity}}'s current temperature</Error>
       </div>
     </Modal>
-    <!-- This makes sure screen readers and assistive technologies
-          aware of this status change -->
+    <!-- This mcoks the Modal implementation, it makes sure screen readers and assistive
+        technologies aware of modal & it's contents when rendered -->
     <div class="ar-notify" role="status" aria-live="polite">
       <div v-if="showModal">
         <h3>{{negotiationStatus}}!</h3>
