@@ -6,7 +6,7 @@
     "start": "node dist/server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && cp src/server.js dist/server.js",
-    "test:unit": "vue-cli-service test:unit | coveralls",
+    "test:unit": "vue-cli-service test:unit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:e2e": "vue-cli-service test:e2e --headless",
     "test": "npm run test:unit && npm run test:e2e",
     "lint": "vue-cli-service lint",
