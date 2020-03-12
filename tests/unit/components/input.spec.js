@@ -28,4 +28,24 @@ describe('Input component', () => {
     const input = wrapper.find('input');
     expect(input.element.placeholder).toBe(placeHolder);
   });
+
+  it('should have default handleKeyPress defined', () => {
+    const spy = jest.spyOn(Input.props.handleKeyPress, 'default');
+    const wrapper = shallowMount(Input, {
+      localVue,
+    });
+    wrapper.find('input').trigger('keypress');
+    expect(wrapper.vm.$props.handleKeyPress).toBeDefined();
+    expect(spy).toBeCalled();
+  });
+
+  it('should have default handlePaste defined', () => {
+    const spy = jest.spyOn(Input.props.handlePaste, 'default');
+    const wrapper = shallowMount(Input, {
+      localVue,
+    });
+    wrapper.find('input').trigger('paste');
+    expect(wrapper.vm.$props.handlePaste).toBeDefined();
+    expect(spy).toBeCalled();
+  });
 });

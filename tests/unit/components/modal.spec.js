@@ -44,7 +44,6 @@ describe('Modal component', () => {
       localVue,
       propsData: { fetchWeather: fetchWeatherMock },
     });
-
     expect(fetchWeatherMock.mock.calls.length).toEqual(1);
   });
 });
