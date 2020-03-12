@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/saheedt/Negotiator.svg?style=shield)](https://circleci.com/gh/saheedt/Negotiator)
-[![Coverage Status](https://coveralls.io/repos/github/saheedt/Negotiator/badge.svg)](https://coveralls.io/github/saheedt/Negotiator)
+[![Coverage Status](https://coveralls.io/repos/github/saheedt/Negotiator/badge.svg?branch=master)](https://coveralls.io/github/saheedt/Negotiator?branch=master)
 
 # Negotiator
 A salary negotiation application designed to accept tentative salary figures from prospective employer & employee and notify both parties their negotiation outcome.
