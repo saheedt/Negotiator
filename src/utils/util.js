@@ -1,7 +1,7 @@
 const util = {
   validations: {
     pasteHasExponential: (event) => {
-      const pasted = (event.originaleventvent || event).clipboardData.getData('text/plain');
+      const pasted = (event.originalEvent || event).clipboardData.getData('text/plain');
       const stringified = JSON.stringify(pasted);
       if (stringified.indexOf(util.validations.invalidInputCharacters[0]) > -1
         || stringified.indexOf(util.validations.invalidInputCharacters[1]) > -1) {

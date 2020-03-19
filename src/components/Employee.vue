@@ -34,6 +34,9 @@ const {
     keyPressHasExponential,
     pasteHasExponential,
   },
+  messages: {
+    invalidInputMessage,
+  },
   mutations,
 } = util;
 
@@ -46,7 +49,7 @@ export default {
   data: () => ({
     localEmployeeSalary: null,
     foundInvalidInput: false,
-    invalidInputMsg: util.invalidInputMessage,
+    invalidInputMsg: invalidInputMessage,
   }),
   methods: {
     setLocalSalary(salary) {
